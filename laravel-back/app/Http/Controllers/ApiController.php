@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class ApiController extends Controller
 {
 
-    public function getData() : string
+    public function getData()
     {
         $data = [
             'message' => 'This is data from the backend',
@@ -19,9 +19,7 @@ class ApiController extends Controller
             ]
         ];
 
-        return '<div>hello</div>';
-
-        //return response()->json($data);
+        return response()->json($data);
     }
 
     /* public function postData(Request $request)
