@@ -1,18 +1,21 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import HomePage from "./components/HomePage/HomePage";
+import RegisterPage from "./components/RegisterPage/RegisterPage";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Ryan Dooley's React App
-        </p>
-      </header>
-    </div>
-  );
+
+
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<HomePage/>}/>
+                <Route path="/get" element={<RegisterPage/>}/>
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;

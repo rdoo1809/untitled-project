@@ -1,7 +1,6 @@
 <?php
 
-
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/get', Controller::class)->name('getData');
+Route::get('/get', [ApiController::class, 'getData'])->name('getData');
