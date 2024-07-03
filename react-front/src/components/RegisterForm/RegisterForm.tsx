@@ -1,4 +1,4 @@
-import React, {FC, useRef, useState} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import InputHinter from "../InputHinter/InputHinter";
 import axios from "axios";
 
@@ -10,6 +10,16 @@ const RegisterForm = ({title = "Register Now"}) => {
     const [fullNameData, setFullName] = useState("");
     const [emailData, setEmail] = useState("");
     const [passwordData, setPassword] = useState("");
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+    useEffect(() => {
+        // Disable the button if any of the inputs are empty
+        setIsButtonDisabled(
+            fullNameData.trim() === '' ||
+            emailData.trim() === '' ||
+            passwordData.trim() === ''
+        );
+    }, [fullNameData, emailData, passwordData]);
 
     function postNewUser() {
         axios.post('http://localhost:8000/api/register', {}).then((r) => {
@@ -53,7 +63,8 @@ const RegisterForm = ({title = "Register Now"}) => {
 
             <div className="w-full text-center py-4">
                 <button onClick={postNewUser}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                        disabled={isButtonDisabled}>
                     Submit
                 </button>
             </div>

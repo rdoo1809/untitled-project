@@ -15,7 +15,7 @@ const InputHinter = ({className = '', name = '', type = 'text', value = "", onCh
     const [errors, setErrors] = useState<Errors>({});
 
     // @ts-ignore
-    const validatePassword = (target) => {
+    const validateInput = (target) => {
         const errors = {};
         if (!target.value) {
             // @ts-ignore
@@ -44,16 +44,15 @@ const InputHinter = ({className = '', name = '', type = 'text', value = "", onCh
     const handleChange = (e) => {
         onChange(e.target.value);
         setTouched(true);
-        //setInput(e.target.value);
         // @ts-ignore
-        setErrors(validatePassword(e.target));
+        setErrors(validateInput(e.target));
     };
 
     // @ts-ignore
     const handleBlur = (e) => {
         setTouched(true);
         // @ts-ignore
-        setErrors(validatePassword(e.target));
+        setErrors(validateInput(e.target));
     };
 
     // @ts-ignore
