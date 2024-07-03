@@ -4,15 +4,21 @@ import clsx from 'clsx';
 
 const MIN_LENGTH = 3;
 const hasUppercase = (str: string) => /[A-Z]/.test(str);
+const hasLowercase = (str: string) => /[a-z]/.test(str);
 
-//todo
-//write tests to validate input hinter works correctly
+interface Errors {
+    required?: string;
+    minlength?: string;
+    uppercase?: string;
+}
 
-const InputHinter = ({className = '', name = '', type = 'text'}) => {
+
+// @ts-ignore
+const InputHinter = ({className = '', name = '', type = 'text', value = "", onChange}) => {
     const inputTitle = name.length === 0 ? 'Field' : name;
-    const [input, setInput] = useState('');
+    //const [input, setInput] = useState('');
     const [touched, setTouched] = useState(false);
-    const [errors, setErrors] = useState({required: '', minlength: '', uppercase: ''});
+    const [errors, setErrors] = useState<Errors>({});
 
     const validatePassword = (value: string) => {
         const errors = {};
@@ -31,7 +37,9 @@ const InputHinter = ({className = '', name = '', type = 'text'}) => {
 
     // @ts-ignore
     const handleChange = (e) => {
-        setInput(e.target.value);
+        onChange(e.target.value);
+        setTouched(true);
+        //setInput(e.target.value);
         // @ts-ignore
         setErrors(validatePassword(e.target.value));
     };
@@ -39,10 +47,12 @@ const InputHinter = ({className = '', name = '', type = 'text'}) => {
     const handleBlur = () => {
         setTouched(true);
         // @ts-ignore
-        setErrors(validatePassword(input));
+        setErrors(validatePassword(value));
     };
 
+    // @ts-ignore
     const errorClass = errors.required || errors.minlength || errors.uppercase ? 'input-error' : '';
+
 
 
     return (
@@ -52,10 +62,10 @@ const InputHinter = ({className = '', name = '', type = 'text'}) => {
             </label>
             <input
                 type={type}
-                value={input}
+                value={value}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={clsx('border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm', errorClass, className)}
+                className={'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ' + errorClass + " " + className}
             />
             {touched && (errors.required || errors.minlength || errors.uppercase) && (
                 <div>

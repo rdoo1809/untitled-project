@@ -22,9 +22,9 @@ class ApiController extends Controller
         return response()->json($data);
     }
 
-    /* public function postData(Request $request)
+     public function registerUser(Request $request): JsonResponse
      {
          $data = $request->all();
          return response()->json(['received' => $data]);
-     } */
+     }
 }

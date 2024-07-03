@@ -10,3 +10,6 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/get', [ApiController::class, 'getData'])->name('getData');
 
+Route::post('/register', [ApiController::class, 'registerUser'])->name('registerUser');
+
+
