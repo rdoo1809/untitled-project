@@ -27,7 +27,7 @@ const RegisterForm = ({title = "Register Now"}) => {
             <br/>
             <div className="w-2/3">
                 <InputHinter
-                    name="Full Name Hinter"
+                    name="Full Name"
                     type="text"
                     className="mt-1 block w-full"
                     value={fullNameData}
@@ -35,7 +35,7 @@ const RegisterForm = ({title = "Register Now"}) => {
                 />
 
                 <InputHinter
-                    name="Email Hinter"
+                    name="Email Address"
                     type="text"
                     className="mt-1 block w-full"
                     value={emailData}

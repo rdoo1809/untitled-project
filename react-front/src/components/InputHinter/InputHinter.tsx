@@ -1,41 +1,40 @@
 import React, {useState} from 'react';
-import clsx from 'clsx';
-
-
-const MIN_LENGTH = 3;
-const hasUppercase = (str: string) => /[A-Z]/.test(str);
-const hasLowercase = (str: string) => /[a-z]/.test(str);
 
 interface Errors {
     required?: string;
     minlength?: string;
     uppercase?: string;
+    lowercase?: string;
+    isEmail?: string;
 }
-
 
 // @ts-ignore
 const InputHinter = ({className = '', name = '', type = 'text', value = "", onChange}) => {
     const inputTitle = name.length === 0 ? 'Field' : name;
-    //const [input, setInput] = useState('');
     const [touched, setTouched] = useState(false);
     const [errors, setErrors] = useState<Errors>({});
 
     // @ts-ignore
     const validatePassword = (target) => {
         const errors = {};
-
-
-        if (target.name === "Password") {
-
-            if (!target.value) {
+        if (!target.value) {
+            // @ts-ignore
+            errors.required = `${inputTitle} is REQUIRED`;
+        } else if (target.name === "Password") {
+            if (target.value.length < 3) {
                 // @ts-ignore
-                errors.required = `${inputTitle} is REQUIRED`;
-            } else if (target.value.length < MIN_LENGTH) {
-                // @ts-ignore
-                errors.minlength = `${inputTitle} must be at least ${MIN_LENGTH} CHARACTERS`;
+                errors.minlength = `${inputTitle} must be at least 3 CHARACTERS`;
             } else if (!/[A-Z]/.test(target.value)) {
                 // @ts-ignore
-                errors.uppercase = `${inputTitle} must contain at least one uppercase letter`;
+                errors.uppercase = `${inputTitle} must contain at least one UPPERCASE letter`;
+            } else if (!/[a-z]/.test(target.value)) {
+                // @ts-ignore
+                errors.lowercase = `${inputTitle} must contain at least one LOWERCASE letter`;
+            }
+        } else if (target.name === "Email Address") {
+            if (!/^[^@]+@[^@]+\.[^@]+$/.test(target.value)) {
+                // @ts-ignore
+                errors.isEmail = `${inputTitle} must be in a VALID format`;
             }
         }
         return errors;
@@ -58,8 +57,7 @@ const InputHinter = ({className = '', name = '', type = 'text', value = "", onCh
     };
 
     // @ts-ignore
-    const errorClass = errors.required || errors.minlength || errors.uppercase ? 'input-error' : '';
-
+    const errorClass = errors.required || errors.minlength || errors.uppercase || errors.lowercase || errors.isEmail ? 'input-error' : '';
 
     return (
         <div>
@@ -74,11 +72,13 @@ const InputHinter = ({className = '', name = '', type = 'text', value = "", onCh
                 onBlur={handleBlur}
                 className={'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ' + errorClass + " " + className}
             />
-            {touched && (errors.required || errors.minlength || errors.uppercase) && (
+            {touched && (errors.required || errors.minlength || errors.uppercase || errors.lowercase || errors.isEmail) && (
                 <div>
                     {errors.required && <small className="text-danger">{errors.required}</small>}
                     {errors.minlength && <small className="text-danger">{errors.minlength}</small>}
                     {errors.uppercase && <small className="text-danger">{errors.uppercase}</small>}
+                    {errors.lowercase && <small className="text-danger">{errors.lowercase}</small>}
+                    {errors.isEmail && <small className="text-danger">{errors.isEmail}</small>}
                 </div>
             )}
         </div>
