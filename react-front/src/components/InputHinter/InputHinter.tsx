@@ -20,17 +20,23 @@ const InputHinter = ({className = '', name = '', type = 'text', value = "", onCh
     const [touched, setTouched] = useState(false);
     const [errors, setErrors] = useState<Errors>({});
 
-    const validatePassword = (value: string) => {
+    // @ts-ignore
+    const validatePassword = (target) => {
         const errors = {};
-        if (!value) {
-            // @ts-ignore
-            errors.required = `${inputTitle} is REQUIRED`;
-        } else if (value.length < MIN_LENGTH) {
-            // @ts-ignore
-            errors.minlength = `${inputTitle} must be at least ${MIN_LENGTH} CHARACTERS`;
-        } else if (!/[A-Z]/.test(value)) {
-            // @ts-ignore
-            errors.uppercase = `${inputTitle} must contain at least one uppercase letter`;
+
+
+        if (target.name === "Password") {
+
+            if (!target.value) {
+                // @ts-ignore
+                errors.required = `${inputTitle} is REQUIRED`;
+            } else if (target.value.length < MIN_LENGTH) {
+                // @ts-ignore
+                errors.minlength = `${inputTitle} must be at least ${MIN_LENGTH} CHARACTERS`;
+            } else if (!/[A-Z]/.test(target.value)) {
+                // @ts-ignore
+                errors.uppercase = `${inputTitle} must contain at least one uppercase letter`;
+            }
         }
         return errors;
     };
@@ -41,18 +47,18 @@ const InputHinter = ({className = '', name = '', type = 'text', value = "", onCh
         setTouched(true);
         //setInput(e.target.value);
         // @ts-ignore
-        setErrors(validatePassword(e.target.value));
+        setErrors(validatePassword(e.target));
     };
 
-    const handleBlur = () => {
+    // @ts-ignore
+    const handleBlur = (e) => {
         setTouched(true);
         // @ts-ignore
-        setErrors(validatePassword(value));
+        setErrors(validatePassword(e.target));
     };
 
     // @ts-ignore
     const errorClass = errors.required || errors.minlength || errors.uppercase ? 'input-error' : '';
-
 
 
     return (
@@ -62,6 +68,7 @@ const InputHinter = ({className = '', name = '', type = 'text', value = "", onCh
             </label>
             <input
                 type={type}
+                name={name}
                 value={value}
                 onChange={handleChange}
                 onBlur={handleBlur}
