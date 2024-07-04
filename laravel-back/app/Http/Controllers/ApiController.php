@@ -27,15 +27,16 @@ class ApiController extends Controller
      {
          $attributes = request()->validate([
              'name' => ['required'],
-//             'lastName'  => ['required'],
-             'email'      => ['required'],
-             'password'   => ['required']
+             'email' => ['required'],
+             'password' => ['required']
          ]);
 
          $user = User::create($attributes);
          Auth::login($user);
 
-         //return redirect('/');
-         return response()->json(['data' => $attributes]);
+         return response()->json([
+             'email' => $user->email,
+             'name' => $user->name,
+         ]);
      }
 }

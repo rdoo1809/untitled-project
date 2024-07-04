@@ -8,8 +8,12 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::get('/get', [ApiController::class, 'getData'])->name('getData');
 
+Route::middleware(['auth:sanctum', 'auth-model:user'])->group(function () {
+    Route::get('/private', [ApiController::class, 'getData'])->name('getData');
+});
+
+Route::get('/public', [ApiController::class, 'getData'])->name('getData');
 Route::post('/register', [ApiController::class, 'registerUser'])->name('registerUser');
 
 
