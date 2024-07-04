@@ -1,6 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import InputHinter from "../InputHinter/InputHinter";
 import axios from "axios";
+import {redirect} from "react-router-dom";
 
 const RegisterForm = ({title = "Register Now"}) => {
     const [fullNameData, setFullName] = useState("");
@@ -22,15 +23,17 @@ const RegisterForm = ({title = "Register Now"}) => {
 
     function postNewUser() {
         let name = fullNameData.split(" ");
-        let firstName = name[0];
-        let lastName = name[1];
+        // let firstName = name[0];
+        // let lastName = name[1];
 
         axios.post('http://localhost:8000/api/register',
-            {firstName: firstName, lastName: lastName, email: emailData, password: passwordData})
+            {name: fullNameData, email: emailData, password: passwordData})
             .then((response) => {
 
-                //console.log(response.data)
-                //alert("User Successfully Registered!\n" + r);
+                console.log(response.data);
+                alert("User Successfully Registered!\n" + response.data.data.name);
+
+                redirect('/');
             }).catch((e) => {
             alert("Error in Registering Account - " + e);
         })

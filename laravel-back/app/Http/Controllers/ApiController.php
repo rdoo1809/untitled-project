@@ -23,24 +23,19 @@ class ApiController extends Controller
         return response()->json($data);
     }
 
-     public function registerUser(Request $request): JsonResponse
+     public function registerUser(Request $request)
      {
-         $data = $request->all();
-        // $nameData = $data['fullName'];
-         return response()->json(['data' => $data]);
+         $attributes = request()->validate([
+             'name' => ['required'],
+//             'lastName'  => ['required'],
+             'email'      => ['required'],
+             'password'   => ['required']
+         ]);
 
-//
-//         $attributes = request()->validate([
-//             'first_name' => ['required'],
-//             'last_name'  => ['required'],
-//             'email'      => ['required'],
-//             'password'   => ['required']
-//         ]);
-//
-//         $user = User::create($attributes);
-//
-//         Auth::login($user);
-//
-//         return redirect('/');
+         $user = User::create($attributes);
+         Auth::login($user);
+
+         //return redirect('/');
+         return response()->json(['data' => $attributes]);
      }
 }

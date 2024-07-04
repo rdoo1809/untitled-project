@@ -5,10 +5,6 @@ interface HomePageProps {}
 
 const HomePage: FC<HomePageProps> = () => {
 
-    // const myFunc = () => {
-    //     return 0;
-    // }
-
     return (
         <div className="App">
             <header className="App-header">
