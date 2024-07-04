@@ -8,7 +8,7 @@ interface Errors {
     isEmail?: string;
 }
 
-// @ts-ignore
+// @ts-ignore                                                                                       //areErrors
 const InputHinter = ({className = '', name = '', type = 'text', value = "", onChange}) => {
     const inputTitle = name.length === 0 ? 'Field' : name;
     const [touched, setTouched] = useState(false);
@@ -42,10 +42,13 @@ const InputHinter = ({className = '', name = '', type = 'text', value = "", onCh
 
     // @ts-ignore
     const handleChange = (e) => {
-        onChange(e.target.value);
         setTouched(true);
         // @ts-ignore
         setErrors(validateInput(e.target));
+        let someErrors = (validateInput(e.target));
+        //console.log(someErrors);
+        //areErrors(someErrors);
+        onChange(e.target.value);
     };
 
     // @ts-ignore

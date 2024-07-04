@@ -1,32 +1,37 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import InputHinter from "../InputHinter/InputHinter";
 import axios from "axios";
-
-
-interface RegisterFormProps {
-}
 
 const RegisterForm = ({title = "Register Now"}) => {
     const [fullNameData, setFullName] = useState("");
     const [emailData, setEmail] = useState("");
     const [passwordData, setPassword] = useState("");
-    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    const [areThereErrors, setAreThereErrors] = useState({
+        //keys: undefined
+    });
 
-    useEffect(() => {
-        // Disable the button if any of the inputs are empty
+   /* useEffect(() => {
+        //disable button when length included an error
         setIsButtonDisabled(
-            fullNameData.trim() === '' ||
-            emailData.trim() === '' ||
-            passwordData.trim() === ''
+             Object.keys(areThereErrors) === undefined || Object.keys(areThereErrors).length > 0
         );
-    }, [fullNameData, emailData, passwordData]);
+        console.log(areThereErrors);
+        console.log(Object.keys(areThereErrors).length)
+    }, [fullNameData, emailData, passwordData]); */
 
     function postNewUser() {
-        axios.post('http://localhost:8000/api/register', {}).then((r) => {
+        let name = fullNameData.split(" ");
+        let firstName = name[0];
+        let lastName = name[1];
 
-            alert(fullNameData + emailData + passwordData);
-            alert("User Successfully Registered!\n" + r);
-        }).catch((e) => {
+        axios.post('http://localhost:8000/api/register',
+            {firstName: firstName, lastName: lastName, email: emailData, password: passwordData})
+            .then((response) => {
+
+                //console.log(response.data)
+                //alert("User Successfully Registered!\n" + r);
+            }).catch((e) => {
             alert("Error in Registering Account - " + e);
         })
     }
@@ -58,6 +63,7 @@ const RegisterForm = ({title = "Register Now"}) => {
                     className="mt-1 block w-full"
                     value={passwordData}
                     onChange={setPassword}
+                    // areErrors={setAreThereErrors}
                 />
             </div>
 
