@@ -10,7 +10,7 @@ Route::get('/user', function (Request $request) {
 
 
 Route::middleware(['auth:sanctum', 'auth-model:user'])->group(function () {
-    Route::get('/private', [ApiController::class, 'getData'])->name('getData');
+    Route::get('/private', [ApiController::class, 'getData'])->name('private');
 });
 
 Route::get('/public', [ApiController::class, 'getData'])->name('getData');

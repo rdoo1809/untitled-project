@@ -23,6 +23,23 @@ class ApiController extends Controller
         return response()->json($data);
     }
 
+
+    public function loginUser(Request $request)
+    {
+//        $attributes = request()->validate([
+//            'email' => ['required'],
+//            'password' => ['required']
+//        ]);
+//
+//        $user = User::create($attributes);
+//        Auth::login($user);
+//
+//        return response()->json([
+//            'email' => $user->email,
+//            'name' => $user->name,
+//        ]);
+    }
+
      public function registerUser(Request $request)
      {
          $attributes = request()->validate([
@@ -33,10 +50,18 @@ class ApiController extends Controller
 
          $user = User::create($attributes);
          Auth::login($user);
+         //$userToken = $user->createToken('bearer-token')->plainTextToken;
+
+//         return redirect()->route('private')->with([
+//             'email' => $user->email,
+//             'name' => $user->name,
+//             'token' => $userToken,
+//         ]);
 
          return response()->json([
              'email' => $user->email,
              'name' => $user->name,
+             //'token' => $userToken,
          ]);
      }
 }
