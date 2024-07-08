@@ -7,7 +7,11 @@ const PrivatePage = () => {
 
     useEffect(() => {
         //GET request to laravel api
-        axios.get('http://localhost:8000/api/private').then(response => {
+        axios.get('http://localhost:8000/api/private', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            }
+        }).then(response => {
             setData(response.data)
         }).catch(error => {
             console.error('Error fetching data - ', error)

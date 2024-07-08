@@ -6,6 +6,7 @@ import RegisterPage from "./components/RegisterPage/RegisterPage";
 import NavBar from "./components/NavBar/NavBar";
 import PrivatePage from "./components/PrivatePage/PrivatePage";
 import PublicPage from "./components/PublicPage/PublicPage";
+import LoginPage from "./components/LoginPage/LoginPage";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
                     <Route path="/public" element={<PublicPage/>}/>
                     <Route path="/private" element={<PrivatePage/>}/>
                     <Route path="/register" element={<RegisterPage/>}/>
+                    <Route path="/login" element={<LoginPage/>}/>
                 </Routes>
         </BrowserRouter>
     );
