@@ -48,17 +48,19 @@ class ApiController extends Controller
          $attributes = request()->validate([
              'name' => ['required'],
              'email' => ['required'],
-             'password' => ['required']
+             'password' => ['required'],
+             //'bearer_token' => [],
          ]);
 
          $user = User::create($attributes);
+         $userToken = $user->createToken('auth-token');
+
          Auth::login($user);
-         $userToken = $user->createToken('auth-token')->plainTextToken;
 
          return response()->json([
              'email' => $user->email,
              'name' => $user->name,
-             'token' => $userToken,
+             'token' => $userToken->plainTextToken,
          ]);
      }
 }

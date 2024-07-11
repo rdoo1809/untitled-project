@@ -9,7 +9,7 @@ const PrivatePage = () => {
         //GET request to laravel api
         axios.get('http://localhost:8000/api/private', {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                Authorization: `Bearer ${localStorage.getItem('authToken')}`,
             }
         }).then(response => {
             setData(response.data)
