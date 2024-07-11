@@ -7,14 +7,16 @@ import NavBar from "./components/NavBar/NavBar";
 import PrivatePage from "./components/PrivatePage/PrivatePage";
 import PublicPage from "./components/PublicPage/PublicPage";
 import LoginPage from "./components/LoginPage/LoginPage";
+import {AuthProvider} from "./context/AuthContext";
 
 
 function App() {
 
 
     return (
-        <BrowserRouter>
-            <NavBar/>
+        <AuthProvider>
+            <BrowserRouter>
+                <NavBar/>
                 <Routes>
                     <Route path="/" element={<HomePage/>}/>
                     <Route path="/public" element={<PublicPage/>}/>
@@ -22,7 +24,8 @@ function App() {
                     <Route path="/register" element={<RegisterPage/>}/>
                     <Route path="/login" element={<LoginPage/>}/>
                 </Routes>
-        </BrowserRouter>
+            </BrowserRouter>
+        </AuthProvider>
     );
 }
 

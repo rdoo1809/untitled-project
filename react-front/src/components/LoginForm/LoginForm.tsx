@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, { useState} from 'react';
 import InputHinter from "../InputHinter/InputHinter";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
@@ -17,7 +17,7 @@ const LoginForm = ({title = "Login to access your account!"}) => {
                 //const userToken = response.data.token;
                 //localStorage.setItem('authToken', userToken);
 
-                console.log(response.data);
+                console.log(response.data)
                 alert(`${response.data.name}, You have been logged in!`);
 
                 navigate('/');
