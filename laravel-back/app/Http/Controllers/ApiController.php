@@ -31,15 +31,14 @@ class ApiController extends Controller
             'password' => ['required']
         ]);
 
-        //$user = User::create($attributes);
-
-
-        //Auth::login($user);
+        $user = User::query()->where('email', $attributes['email'])->first();
+        $userToken = $user->createToken('auth-token');
+        Auth::login($user);
 
         return response()->json([
-            'attributes' => $attributes,
-//            'email' => $user->email,
-//            'name' => $user->name,
+            'email' => $user->email,
+            'name' => $user->name,
+            'token' => $userToken->plainTextToken,
         ]);
     }
 

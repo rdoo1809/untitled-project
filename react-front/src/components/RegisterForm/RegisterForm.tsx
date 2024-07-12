@@ -2,8 +2,10 @@ import React, {FC, useEffect, useState} from 'react';
 import InputHinter from "../InputHinter/InputHinter";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import {useAuth} from '../../context/AuthContext';
 
 const RegisterForm = ({title = "Register Now"}) => {
+    const { login } = useAuth();
     const navigate = useNavigate();
     const [fullNameData, setFullName] = useState("");
     const [emailData, setEmail] = useState("");
@@ -31,6 +33,7 @@ const RegisterForm = ({title = "Register Now"}) => {
 
                 console.log(response.data);
                 alert("User Successfully Registered!\n" + response.data.name);
+                login();
 
                 navigate('/');
             }).catch((e) => {

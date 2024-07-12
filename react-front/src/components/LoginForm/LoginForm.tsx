@@ -1,10 +1,12 @@
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import InputHinter from "../InputHinter/InputHinter";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {useAuth} from '../../context/AuthContext';
 
 
 const LoginForm = ({title = "Login to access your account!"}) => {
+    const { login } = useAuth();
     const navigate = useNavigate();
     const [emailData, setEmail] = useState("");
     const [passwordData, setPassword] = useState("");
@@ -14,8 +16,10 @@ const LoginForm = ({title = "Login to access your account!"}) => {
         axios.post('http://localhost:8000/api/login',
             {email: emailData, password: passwordData})
             .then((response) => {
-                //const userToken = response.data.token;
-                //localStorage.setItem('authToken', userToken);
+                const userToken = response.data.token;
+                localStorage.setItem('authToken', userToken);
+
+                login();
 
                 console.log(response.data)
                 alert(`${response.data.name}, You have been logged in!`);
