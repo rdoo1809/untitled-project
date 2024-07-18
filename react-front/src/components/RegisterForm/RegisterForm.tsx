@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import InputHinter from "../InputHinter/InputHinter";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import HomePage from "./components/HomePage/HomePage";
@@ -8,24 +8,31 @@ import PrivatePage from "./components/PrivatePage/PrivatePage";
 import PublicPage from "./components/PublicPage/PublicPage";
 import LoginPage from "./components/LoginPage/LoginPage";
 import {AuthProvider} from "./context/AuthContext";
+import {UserProvider} from "./context/UserContext";
+import UserPage from "./components/UserPage/UserPage";
 
 
 function App() {
 
+    const [userName, setUserName] =
+        useState(localStorage.getItem('userName') ? localStorage.getItem('userName') : "");
 
     return (
-        <AuthProvider>
-            <BrowserRouter>
-                <NavBar/>
-                <Routes>
-                    <Route path="/" element={<HomePage/>}/>
-                    <Route path="/public" element={<PublicPage/>}/>
-                    <Route path="/private" element={<PrivatePage/>}/>
-                    <Route path="/register" element={<RegisterPage/>}/>
-                    <Route path="/login" element={<LoginPage/>}/>
-                </Routes>
-            </BrowserRouter>
-        </AuthProvider>
+        <UserProvider>
+            <AuthProvider>
+                <BrowserRouter>
+                    <NavBar/>
+                    <Routes>
+                        <Route path="/" element={<HomePage/>}/>
+                        <Route path="/public" element={<PublicPage/>}/>
+                        <Route path="/private" element={<PrivatePage/>}/>
+                        <Route path="/register" element={<RegisterPage/>}/>
+                        <Route path="/login" element={<LoginPage/>}/>
+                        <Route path="/user-settings" element={<UserPage/>}/>
+                    </Routes>
+                </BrowserRouter>
+            </AuthProvider>
+        </UserProvider>
     );
 }
 

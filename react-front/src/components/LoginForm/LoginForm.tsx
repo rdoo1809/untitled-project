@@ -6,27 +6,26 @@ import {useAuth} from '../../context/AuthContext';
 
 
 const LoginForm = ({title = "Login to access your account!"}) => {
-    const { login } = useAuth();
+    const {login} = useAuth();
     const navigate = useNavigate();
     const [emailData, setEmail] = useState("");
     const [passwordData, setPassword] = useState("");
-    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     function loginUser() {
         axios.post('http://localhost:8000/api/login',
             {email: emailData, password: passwordData})
             .then((response) => {
-                const userToken = response.data.token;
-                localStorage.setItem('authToken', userToken);
+                localStorage.setItem('authToken', response.data.token);
+                localStorage.setItem('userEmail', response.data.email);
+                localStorage.setItem('userName', response.data.name);
 
                 login();
 
                 console.log(response.data)
                 alert(`${response.data.name}, You have been logged in!`);
-
-                navigate('/');
+                navigate('/private');
             }).catch((e) => {
-            alert("Error in Registering Account - " + e);
+            alert("Error Logging in - Please ensure credentials are valid");
         })
     }
 
@@ -56,7 +55,7 @@ const LoginForm = ({title = "Login to access your account!"}) => {
             <div className="w-full text-center py-4">
                 <button onClick={loginUser}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                        disabled={isButtonDisabled}>
+                >
                     Submit
                 </button>
             </div>
