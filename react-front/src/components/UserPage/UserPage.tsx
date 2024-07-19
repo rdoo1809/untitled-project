@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import axios from "axios";
 import {useUser} from "../../context/UserContext";
 import SettingsForm from "../SettingsForm/SettingsForm";
 
@@ -10,10 +9,9 @@ const UserPage = () => {
 
     return (
         <div className='mt-40 text-3xl' data-testid="UserPage">
-            <header><b>{userName}</b> - Change your account settings here!
+            <header className='ml-20'><b>{userName}</b> - Change your account settings here!
             </header>
-            <hr/>
-            <main className='w-full'>
+            <main className='w-full mt-20 flex flex-wrap justify-center'>
                 <SettingsForm />
             </main>
         </div>
