@@ -70,27 +70,28 @@ class ApiController extends Controller
         ]);
     }
 
-    public function getUserSettings(Request $request): JsonResponse
+    public function updateUser(Request $request): JsonResponse
     {
         $request->header('Authorization');
-//        $attributes = request()->validate([
-//            'Email' => ['required'],
-//        ]);
+        $attributes = request()->validate([
+            'name' => ['required'],
+            'email' => ['required'],
+        ]);
 
-        //retrieve the current user
+        //update the currrent user
         //$user = User::query()->where('email', $attributes['email'])->first();
 
-//        $data = [
-//            'message' => 'Here is your user data...',
-//            'status' => 'success',
-//            'user' => [
-//                'name' => $user->name,
-//                'email' => $user->email,
-//                'password' => $user->password,
-//            ]
-//        ];
+        //return the updated data
+        $data = [
+            'message' => 'Here is your response...',
+            'status' => 'success',
+            'user' => [
+                'name' => $attributes['name'], //$user->name,
+                'email' => $attributes['email'] //$user->email,
+            ]
+        ];
 
-        return response()->json($request);
+        return response()->json($data);
     }
 
 }

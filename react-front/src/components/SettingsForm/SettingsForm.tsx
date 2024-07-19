@@ -1,7 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import InputHinter from "../InputHinter/InputHinter";
 import axios from "axios";
-
 
 const SettingsForm = () => {
     const [userName, setUserName] = useState("");
@@ -20,16 +18,16 @@ const SettingsForm = () => {
     }, []);
 
     const patchUser = () => {
-        axios.patch("/api/update-user", {
-            //
+        axios.patch('http://localhost:8000/api/update-user', {name: userName, email: emailAddress}, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            }
+        }).then(response => {
+            alert(response.data.user.name)
 
-        }).then((data) => {
-            //
-
-
-        }).catch((e) => {
-            console.log(e)
-        });
+        }).catch(error => {
+            console.error(error)
+        })
     }
 
     return (
