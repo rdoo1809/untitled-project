@@ -22,12 +22,10 @@ class ApiController extends Controller
                 'name' => 'Sample Data'
             ]
         ];
-
         return response()->json($data);
     }
 
-
-    public function loginUser(Request $request)
+    public function loginUser() //Request $request
     {
         try {
             $attributes = request()->validate([
@@ -74,24 +72,24 @@ class ApiController extends Controller
     {
         $request->header('Authorization');
         $attributes = request()->validate([
-            'name' => ['required'],
-            'email' => ['required'],
+            'name' => ['sometimes', 'string'],
+            'email' => ['sometimes', 'email']
         ]);
 
-        //update the currrent user
-        //$user = User::query()->where('email', $attributes['email'])->first();
+        //update the current user
+        $user = auth()->user();
+        $user->update($attributes);
 
         //return the updated data
         $data = [
-            'message' => 'Here is your response...',
+            'message' => 'User updated successfully!',
             'status' => 'success',
             'user' => [
-                'name' => $attributes['name'], //$user->name,
-                'email' => $attributes['email'] //$user->email,
+                'name' => $attributes['name'],
+                'email' => $attributes['email']
             ]
         ];
 
         return response()->json($data);
     }
-
 }
