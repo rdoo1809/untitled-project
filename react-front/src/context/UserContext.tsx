@@ -4,18 +4,20 @@ import axios from "axios";
 interface UserContextType {
     userName: string;
     setUserName: (name: string) => void;
+    emailAddress: string;
+    setEmailAddress: (name: string) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [userName, setUserName] = useState(localStorage.getItem('userName') ?? "Account");
-    // const [emailAddress, setEmailAddress] = useState(localStorage.getItem('userEmail') ?? "") ;
+    const [emailAddress, setEmailAddress] = useState(localStorage.getItem('userEmail') ?? "") ;
 
 
 
     return (
-        <UserContext.Provider value={{ userName, setUserName }}>
+        <UserContext.Provider value={{ userName, setUserName, emailAddress, setEmailAddress }}>
             {children}
         </UserContext.Provider>
     );

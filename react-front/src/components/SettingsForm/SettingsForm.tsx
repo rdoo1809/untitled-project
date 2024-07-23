@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import axios from "axios";
+import React from 'react';
 import {patchUser, useUser} from "../../context/UserContext";
 
 const SettingsForm = () => {
     const {userName, setUserName} = useUser();
-    const [emailAddress, setEmailAddress] = useState(localStorage.getItem('userEmail') ?? "") ;
+    const {emailAddress, setEmailAddress} = useUser();
     const patchDetails = () => patchUser(userName, emailAddress)
 
 
