@@ -1,37 +1,12 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from "axios";
+import {patchUser, useUser} from "../../context/UserContext";
 
 const SettingsForm = () => {
-    const [userName, setUserName] = useState("");
-    const [emailAddress, setEmailAddress] = useState("");
+    const {userName, setUserName} = useUser();
+    const [emailAddress, setEmailAddress] = useState(localStorage.getItem('userEmail') ?? "") ;
+    const patchDetails = () => patchUser(userName, emailAddress)
 
-    //useMemo for user?
-
-    useEffect(() => {
-        let storedEmail = (localStorage.getItem('userEmail'));
-        let storedName = (localStorage.getItem('userName'));
-        // @ts-ignore
-        setEmailAddress(storedEmail);
-        // @ts-ignore
-        setUserName(storedName);
-
-    }, []);
-
-    const patchUser = () => {
-        axios.patch('http://localhost:8000/api/update-user', {name: userName, email: emailAddress}, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-            }
-        }).then(response => {
-            alert(response.data.user.name + " , your account has been updated successfully!");
-            console.log(response.data.user)
-            localStorage.setItem('userEmail', response.data.user.email);
-            localStorage.setItem('userName', response.data.user.name);
-            window.location.reload();
-        }).catch(error => {
-            console.error(error)
-        })
-    }
 
     const sendPasswordReset = () => {
         //
@@ -66,7 +41,7 @@ const SettingsForm = () => {
                     </label>
                 </div>
                 <div className="w-full text-center py-4">
-                    <button onClick={patchUser}
+                    <button onClick={patchDetails}
                             className="bg-blue-500 hover:bg-blue-700 text-sm text-white font-bold py-2 px-4 rounded-full"
                     >
                         Submit Changes

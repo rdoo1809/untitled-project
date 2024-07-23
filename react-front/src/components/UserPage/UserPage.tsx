@@ -4,7 +4,7 @@ import SettingsForm from "../SettingsForm/SettingsForm";
 
 
 const UserPage = () => {
-    const {userName} = useUser();
+    const userName = localStorage.getItem('userName') ?? "";
 
 
     return (
