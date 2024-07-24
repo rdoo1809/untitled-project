@@ -89,7 +89,12 @@ class ApiController extends Controller
                 'email' => $attributes['email']
             ]
         ];
-
         return response()->json($data);
+    }
+
+    public function deleteUser(Request $request): JsonResponse
+    {
+
+        return response()->json("taco");
     }
 }

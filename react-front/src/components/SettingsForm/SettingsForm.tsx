@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {patchUser, useUser} from "../../context/UserContext";
+import ConfirmModal from "../ConfirmModal/ConfirmModal";
 
 const SettingsForm = () => {
     const {userName, setUserName} = useUser();
     const {emailAddress, setEmailAddress} = useUser();
+    const [showDialog, setShowDialog] = useState(false);
     const patchDetails = () => patchUser(userName, emailAddress)
 
 
@@ -13,7 +15,9 @@ const SettingsForm = () => {
 
     const deleteAccount = () => {
         //
+
     }
+
 
     return (
         <div>
@@ -56,12 +60,14 @@ const SettingsForm = () => {
                         className="bg-amber-500 hover:bg-amber-700 text-sm text-white font-bold py-2 px-4 rounded-full"
                 >Reset Password
                 </button>
-                <button onClick={deleteAccount}
+                <button onClick={()=>setShowDialog(true)}
                         className="bg-red-500 hover:bg-red-700 text-sm text-white font-bold py-2 px-4 rounded-full"
                 >
                     Delete Account
                 </button>
             </div>
+            <ConfirmModal show={showDialog} message="Are you sure you want to Delete your account?"
+                          onConfirm={deleteAccount} onCancel={() => setShowDialog(false)}/>
         </div>
     );
 }
