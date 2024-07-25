@@ -30,6 +30,8 @@ const RegisterForm = ({title = "Register Now"}) => {
             .then((response) => {
                 const userToken = response.data.token;
                 localStorage.setItem('authToken', userToken);
+                localStorage.setItem('userEmail', response.data.email);
+                localStorage.setItem('userName', response.data.name);
 
                 console.log(response.data);
                 alert("User Successfully Registered!\n" + response.data.name);

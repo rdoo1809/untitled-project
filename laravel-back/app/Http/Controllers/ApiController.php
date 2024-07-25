@@ -76,11 +76,9 @@ class ApiController extends Controller
             'email' => ['sometimes', 'email']
         ]);
 
-        //update the current user
         $user = auth()->user();
         $user->update($attributes);
 
-        //return the updated data
         $data = [
             'message' => 'User updated successfully!',
             'status' => 'success',
@@ -95,10 +93,11 @@ class ApiController extends Controller
     public function deleteUser(Request $request): JsonResponse
     {
         $user = auth()->user();
+        $name = $user->name;
         $user->delete();
 
         $data = [
-            'message' => 'User Deleted successfully!',
+            'message' => "User - " . $name .  " - your account has been Deleted successfully!",
             'status' => 'success',
         ];
         return response()->json($data);

@@ -1,5 +1,7 @@
 import React, {createContext, useState, useContext, ReactNode, useEffect} from 'react';
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
+import {useAuth} from "./AuthContext";
 
 interface UserContextType {
     userName: string;
@@ -31,7 +33,6 @@ export const useUser = (): UserContextType => {
     return context;
 };
 
-
 export const patchUser = (userName: string, emailAddress: string) => {
     axios.patch('http://localhost:8000/api/update-user', {name: userName, email: emailAddress}, {
         headers: {
@@ -46,5 +47,19 @@ export const patchUser = (userName: string, emailAddress: string) => {
         // window.location.reload();
     }).catch(error => {
         console.error(error)
+    })
+}
+
+export const deleteAccount = () => {
+    axios.delete('http://localhost:8000/api/delete-user', {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        }
+    }).then((data) => {
+        console.log(data);
+        alert(data.data.message)
+    }).catch((e) => {
+        console.log(e);
+        alert("Error in deleting your account");
     })
 }

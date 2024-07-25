@@ -1,36 +1,25 @@
 import React, {useState} from 'react';
-import {patchUser, useUser} from "../../context/UserContext";
+import {patchUser, deleteAccount, useUser} from "../../context/UserContext";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {useAuth} from "../../context/AuthContext";
 
 const SettingsForm = () => {
+    const {logout} = useAuth();
     const navigator = useNavigate();
     const {userName, setUserName} = useUser();
     const {emailAddress, setEmailAddress} = useUser();
     const [showDialog, setShowDialog] = useState(false);
     const patchDetails = () => patchUser(userName, emailAddress)
+    const deleteUser = () => {
+        deleteAccount();
+        logout();
+        navigator('/');
+    }
 
 
     const sendPasswordReset = () => {
         //
-    }
-
-    const deleteAccount = () => {
-        setShowDialog(false);
-        axios.delete('http://localhost:8000/api/delete-user', {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-            }
-        }).then((data) => {
-            console.log(data);
-            alert(data.data.message)
-            navigator('/');
-        }).catch((e) => {
-            console.log(e);
-            alert("Error in deleting your account");
-        })
-
     }
 
 
@@ -82,7 +71,7 @@ const SettingsForm = () => {
                 </button>
             </div>
             <ConfirmModal show={showDialog} message="Are you sure you want to Delete your account?"
-                          onConfirm={deleteAccount} onCancel={() => setShowDialog(false)}/>
+                          onConfirm={deleteUser} onCancel={() => setShowDialog(false)}/>
         </div>
     );
 }
