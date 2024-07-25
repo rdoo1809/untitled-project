@@ -62,7 +62,7 @@ const InputHinter = ({className = '', name = '', type = 'text', value = "", onCh
     const errorClass = errors.required || errors.minlength || errors.uppercase || errors.lowercase || errors.isEmail ? 'input-error' : '';
 
     return (
-        <div>
+        <div data-testid="input-hinter">
             <label className={`block font-medium text-sm text-gray-700 ` + className}>
                 {inputTitle}
             </label>
