@@ -25,7 +25,7 @@ class ApiController extends Controller
         return response()->json($data);
     }
 
-    public function loginUser() //Request $request
+    public function loginUser()
     {
         try {
             $attributes = request()->validate([
@@ -94,7 +94,13 @@ class ApiController extends Controller
 
     public function deleteUser(Request $request): JsonResponse
     {
+        $user = auth()->user();
+        $user->delete();
 
-        return response()->json("taco");
+        $data = [
+            'message' => 'User Deleted successfully!',
+            'status' => 'success',
+        ];
+        return response()->json($data);
     }
 }

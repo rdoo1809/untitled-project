@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
 import {patchUser, useUser} from "../../context/UserContext";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const SettingsForm = () => {
+    const navigator = useNavigate();
     const {userName, setUserName} = useUser();
     const {emailAddress, setEmailAddress} = useUser();
     const [showDialog, setShowDialog] = useState(false);
@@ -14,7 +17,19 @@ const SettingsForm = () => {
     }
 
     const deleteAccount = () => {
-        //
+        setShowDialog(false);
+        axios.delete('http://localhost:8000/api/delete-user', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            }
+        }).then((data) => {
+            console.log(data);
+            alert(data.data.message)
+            navigator('/');
+        }).catch((e) => {
+            console.log(e);
+            alert("Error in deleting your account");
+        })
 
     }
 
@@ -60,7 +75,7 @@ const SettingsForm = () => {
                         className="bg-amber-500 hover:bg-amber-700 text-sm text-white font-bold py-2 px-4 rounded-full"
                 >Reset Password
                 </button>
-                <button onClick={()=>setShowDialog(true)}
+                <button onClick={() => setShowDialog(true)}
                         className="bg-red-500 hover:bg-red-700 text-sm text-white font-bold py-2 px-4 rounded-full"
                 >
                     Delete Account

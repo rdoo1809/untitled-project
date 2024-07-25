@@ -48,15 +48,3 @@ export const patchUser = (userName: string, emailAddress: string) => {
         console.error(error)
     })
 }
-
-export const deleteUser = () => {
-    axios.delete('', {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        }
-    }).then((response)=>{
-
-    }).catch((e)=>{
-        alert(e);
-    })
-}
