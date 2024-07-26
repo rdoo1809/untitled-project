@@ -8,7 +8,6 @@ import logo from "../../logo.svg";
 const NavBar = () => {
     const {isAuthenticated} = useAuth();
 
-    //<UnAuthLayout/>
     return (
         <nav
             className="bg-white dark:bg-gray-900 fixed w-full flex top-0 start-0 border-b border-gray-200 dark:border-gray-600">

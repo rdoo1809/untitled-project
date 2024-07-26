@@ -9,7 +9,7 @@ interface Errors {
 }
 
 // @ts-ignore                                                                                       //areErrors
-const InputHinter = ({className = '', name = '', type = 'text', value = "", onChange}) => {
+const InputHinter = ({className = '', name = '', type = 'text', value = "", onChange = (event)=>{}}) => {
     const inputTitle = name.length === 0 ? 'Field' : name;
     const [touched, setTouched] = useState(false);
     const [errors, setErrors] = useState<Errors>({});
@@ -67,6 +67,7 @@ const InputHinter = ({className = '', name = '', type = 'text', value = "", onCh
                 {inputTitle}
             </label>
             <input
+                data-testid="hinter-input"
                 type={type}
                 name={name}
                 value={value}
