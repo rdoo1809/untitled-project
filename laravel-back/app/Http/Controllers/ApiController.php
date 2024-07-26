@@ -53,7 +53,7 @@ class ApiController extends Controller
         $attributes = request()->validate([
             'name' => ['required'],
             'email' => ['required'],
-            'password' => ['required'],
+            'password' => ['required', 'min:8'],
         ]);
 
         $user = User::create($attributes);
