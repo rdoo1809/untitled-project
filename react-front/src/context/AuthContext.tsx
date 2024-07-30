@@ -1,4 +1,5 @@
 import React, {createContext, useContext, useState, ReactNode} from 'react';
+import axios from "axios";
 
 interface AuthContextType {
     isAuthenticated: boolean;
@@ -37,3 +38,19 @@ export const useAuth = () => {
     }
     return context;
 };
+
+export const postAUser = (fullNameData: string, emailData: string, passwordData: string) => {
+    axios.post('http://localhost:8000/api/register',
+        {name: fullNameData, email: emailData, password: passwordData})
+        .then((response) => {
+            const userToken = response.data.token;
+            localStorage.setItem('authToken', userToken);
+            localStorage.setItem('userEmail', response.data.email);
+            localStorage.setItem('userName', response.data.name);
+
+            console.log(response.data);
+            alert("User Successfully Registered!\n" + response.data.name);
+        }).catch((e) => {
+        alert("Error in Registering Account - " + e);
+    })
+}

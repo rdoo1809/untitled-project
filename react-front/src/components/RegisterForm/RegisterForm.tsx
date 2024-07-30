@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import InputHinter from "../InputHinter/InputHinter";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
-import {useAuth} from '../../context/AuthContext';
+import {useNavigate} from 'react-router-dom';
+import {useAuth, postAUser} from '../../context/AuthContext';
 
 const RegisterForm = ({title = "Register Now"}) => {
-    const { login } = useAuth();
+    const {login} = useAuth();
     const navigate = useNavigate();
     const [fullNameData, setFullName] = useState("");
     const [emailData, setEmail] = useState("");
@@ -15,33 +15,21 @@ const RegisterForm = ({title = "Register Now"}) => {
         //keys: undefined
     });
 
-   /* useEffect(() => {
-        //disable button when length included an error
-        setIsButtonDisabled(
-             Object.keys(areThereErrors) === undefined || Object.keys(areThereErrors).length > 0
-        );
-        console.log(areThereErrors);
-        console.log(Object.keys(areThereErrors).length)
-    }, [fullNameData, emailData, passwordData]); */
-
-    function postNewUser() {
-        axios.post('http://localhost:8000/api/register',
-            {name: fullNameData, email: emailData, password: passwordData})
-            .then((response) => {
-                const userToken = response.data.token;
-                localStorage.setItem('authToken', userToken);
-                localStorage.setItem('userEmail', response.data.email);
-                localStorage.setItem('userName', response.data.name);
-
-                console.log(response.data);
-                alert("User Successfully Registered!\n" + response.data.name);
-                login();
-
-                navigate('/');
-            }).catch((e) => {
-            alert("Error in Registering Account - " + e);
-        })
+    const postNewUser = () => {
+        postAUser(fullNameData, emailData, passwordData);
+        login();
+        navigate('/');
     }
+
+    /* useEffect(() => {
+         //disable button when length included an error
+         setIsButtonDisabled(
+              Object.keys(areThereErrors) === undefined || Object.keys(areThereErrors).length > 0
+         );
+         console.log(areThereErrors);
+         console.log(Object.keys(areThereErrors).length)
+     }, [fullNameData, emailData, passwordData]); */
+
 
     return (
         <div className="w-1/2 bg-amber-100 flex flex-wrap justify-center ">
