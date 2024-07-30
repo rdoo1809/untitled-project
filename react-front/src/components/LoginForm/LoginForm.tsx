@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import InputHinter from "../InputHinter/InputHinter";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import {useAuth} from '../../context/AuthContext';
+import {loginUser, useAuth} from '../../context/AuthContext';
 
 
 const LoginForm = ({title = "Login to access your account!"}) => {
@@ -10,25 +10,11 @@ const LoginForm = ({title = "Login to access your account!"}) => {
     const navigate = useNavigate();
     const [emailData, setEmail] = useState("");
     const [passwordData, setPassword] = useState("");
-
-    function loginUser() {
-        axios.post('http://localhost:8000/api/login',
-            {email: emailData, password: passwordData})
-            .then((response) => {
-                localStorage.setItem('authToken', response.data.token);
-                localStorage.setItem('userEmail', response.data.email);
-                localStorage.setItem('userName', response.data.name);
-
-                login();
-
-                console.log(response.data)
-                alert(`${response.data.name}, You have been logged in!`);
-                navigate('/private');
-            }).catch((e) => {
-            alert("Error Logging in - Please ensure credentials are valid");
-        })
+    const logAUser = () => {
+        loginUser(emailData, passwordData);
+        login();
+        navigate('/private');
     }
-
 
     return (
         <div className="w-1/2 bg-amber-100 flex flex-wrap justify-center ">
@@ -42,7 +28,6 @@ const LoginForm = ({title = "Login to access your account!"}) => {
                     value={emailData}
                     onChange={setEmail}
                 />
-
                 <InputHinter
                     name="Password"
                     type="text"
@@ -51,9 +36,8 @@ const LoginForm = ({title = "Login to access your account!"}) => {
                     onChange={setPassword}
                 />
             </div>
-
             <div className="w-full text-center py-4">
-                <button onClick={loginUser}
+                <button onClick={logAUser}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                 >
                     Submit
@@ -61,8 +45,6 @@ const LoginForm = ({title = "Login to access your account!"}) => {
             </div>
         </div>
     )
-
-
 }
 
 export default LoginForm;

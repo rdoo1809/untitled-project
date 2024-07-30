@@ -39,6 +39,21 @@ export const useAuth = () => {
     return context;
 };
 
+export const loginUser = (emailData: string, passwordData: string) => {
+    axios.post('http://localhost:8000/api/login',
+        {email: emailData, password: passwordData})
+        .then((response) => {
+            localStorage.setItem('authToken', response.data.token);
+            localStorage.setItem('userEmail', response.data.email);
+            localStorage.setItem('userName', response.data.name);
+
+            console.log(response.data)
+            alert(`${response.data.name}, You have been logged in!`);
+        }).catch((e) => {
+        alert("Error Logging in - Please ensure credentials are valid");
+    })
+}
+
 export const postAUser = (fullNameData: string, emailData: string, passwordData: string) => {
     axios.post('http://localhost:8000/api/register',
         {name: fullNameData, email: emailData, password: passwordData})
