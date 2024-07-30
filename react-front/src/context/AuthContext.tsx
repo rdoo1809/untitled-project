@@ -1,5 +1,6 @@
 import React, {createContext, useContext, useState, ReactNode} from 'react';
 import axios from "axios";
+import {log} from "node:util";
 
 interface AuthContextType {
     isAuthenticated: boolean;
@@ -52,6 +53,11 @@ export const loginUser = (emailData: string, passwordData: string) => {
         }).catch((e) => {
         alert("Error Logging in - Please ensure credentials are valid");
     })
+}
+
+export const forgotPassword = (email: string) => {
+    axios.post('http://localhost:8000/api/forgot-password', {email: email})
+    .then((response) => {console.log(response.data)}).catch((e)=> console.log(e))
 }
 
 export const postAUser = (fullNameData: string, emailData: string, passwordData: string) => {

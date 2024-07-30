@@ -69,7 +69,7 @@ class ApiControllerTest extends TestCase
     public function test_private_page_is_inaccessible_without_bearer(): void
     {
         $response = $this->getJson(route('private'));
-        $response->assertStatus(401)->assertUnauthorized()->assertJsonStructure([
+        $response->assertUnauthorized()->assertJsonStructure([
             'message'
         ]);
     }
@@ -77,12 +77,14 @@ class ApiControllerTest extends TestCase
     public function test_private_page_is_accessible_with_bearer(): void
     {
         $user = User::factory()->create();
+        $userToken = $user->createToken('auth-token')->plainTextToken;
 
-        $response = $this->getJson(route('private'))->withHeaders([
-            'Authorization' => 'Bearer ' . $user->token,
-        ]);
 
-        //$response->assertStatus(200);
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $userToken,
+        ])->getJson(route('private'));
+
+        $response->assertStatus(200);
     }
 
     public function test_public_page_returns_payload(): void

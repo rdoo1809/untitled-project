@@ -5,6 +5,7 @@ import axios from "axios";
 const PrivatePage = () => {
     const [data, setData] = useState({})
 
+    //use effect run twice in strict mode
     useEffect(() => {
         //GET request to laravel api
         axios.get('http://localhost:8000/api/private', {

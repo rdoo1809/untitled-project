@@ -21,8 +21,11 @@ describe('<InputHinter />', () => {
       userEvent.click(hinterInput);
       userEvent.click(await screen.findByText("Email Address"));
 
-      //expect(screen.getByText(wrongEmailMessage)).toBeInTheDocument();
-      expect(hinterInput).toBeInTheDocument();
+
+
+      expect(screen.getByText(wrongEmailMessage)).toBeInTheDocument();
+
+     // expect(hinterInput).toBeInTheDocument();
   });
 
   test('displays error based on email type', () => {

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import InputHinter from "../InputHinter/InputHinter";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import {loginUser, useAuth} from '../../context/AuthContext';
+import {loginUser, useAuth, forgotPassword} from '../../context/AuthContext';
 
 
 const LoginForm = ({title = "Login to access your account!"}) => {
@@ -43,6 +43,7 @@ const LoginForm = ({title = "Login to access your account!"}) => {
                     Submit
                 </button>
             </div>
+            <button onClick={()=>forgotPassword(emailData)} type="submit"> Forgot Password?</button>
         </div>
     )
 }
