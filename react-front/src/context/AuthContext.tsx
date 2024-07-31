@@ -55,11 +55,6 @@ export const loginUser = (emailData: string, passwordData: string) => {
     })
 }
 
-export const forgotPassword = (email: string) => {
-    axios.post('http://localhost:8000/api/forgot-password', {email: email})
-    .then((response) => {console.log(response.data)}).catch((e)=> console.log(e))
-}
-
 export const postAUser = (fullNameData: string, emailData: string, passwordData: string) => {
     axios.post('http://localhost:8000/api/register',
         {name: fullNameData, email: emailData, password: passwordData})
@@ -73,5 +68,16 @@ export const postAUser = (fullNameData: string, emailData: string, passwordData:
             alert("User Successfully Registered!\n" + response.data.name);
         }).catch((e) => {
         alert("Error in Registering Account - " + e);
+    })
+}
+
+
+export const forgotPassword = (email: string) => {
+    axios.post('http://localhost:8000/api/forgot-password', {email: email})
+        .then((response) => {
+            console.log(response.data)
+        }).catch((e) => {
+        console.log(e)
+        alert(e.message);
     })
 }
