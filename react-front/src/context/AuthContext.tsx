@@ -72,6 +72,19 @@ export const postAUser = (fullNameData: string, emailData: string, passwordData:
 }
 
 
+export const resetPassword = (password: string, token: string, email: string) => {
+    console.log(password,' ',token);
+    axios.post('http://localhost:8000/api/reset-password', {
+        password: password,
+        token: token,
+        email: 'rd@email.ca'
+    }).then((response) => {
+    }).catch((e) => {
+
+    })
+
+}
+
 export const forgotPassword = (email: string) => {
     axios.post('http://localhost:8000/api/forgot-password', {email: email})
         .then((response) => {

@@ -1,9 +1,13 @@
 <?php
 
 use App\Http\Controllers\ApiController;
+use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -45,11 +49,12 @@ Route::post('/reset-password', function (Request $request) {
     $request->validate([
         'token' => 'required',
         'email' => 'required|email',
-        'password' => 'required|min:8|confirmed',
+        'password' => 'required|min:8',     //|confirmed
     ]);
 
     $status = Password::reset(
-        $request->only('email', 'password', 'password_confirmation', 'token'),
+        $request->only('email', 'password', 'password', 'token'),
+
         function (User $user, string $password) {
             $user->forceFill([
                 'password' => Hash::make($password)
@@ -62,7 +67,7 @@ Route::post('/reset-password', function (Request $request) {
     );
 
     return $status === Password::PASSWORD_RESET
-        ? redirect()->route('login')->with('status', __($status))
+        ? redirect()->route('http://localhost:3000/login')->with('status', __($status))
         : back()->withErrors(['email' => [__($status)]]);
 })->middleware('guest')->name('password.update');
 

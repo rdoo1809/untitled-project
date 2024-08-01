@@ -10,6 +10,7 @@ import LoginPage from "./components/LoginPage/LoginPage";
 import {AuthProvider} from "./context/AuthContext";
 import {UserProvider} from "./context/UserContext";
 import UserPage from "./components/UserPage/UserPage";
+import ResetPassword from "./components/ResetPassword/ResetPassword";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
                         <Route path="/register" element={<RegisterPage/>}/>
                         <Route path="/login" element={<LoginPage/>}/>
                         <Route path="/user-settings" element={<UserPage/>}/>
+                        <Route path="/reset-password" element={<ResetPassword/>}/>
                     </Routes>
                 </BrowserRouter>
             </AuthProvider>
