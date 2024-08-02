@@ -16,8 +16,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [userName, setUserName] = useState(localStorage.getItem('userName') ?? "Account");
     const [emailAddress, setEmailAddress] = useState(localStorage.getItem('userEmail') ?? "") ;
 
-
-
     return (
         <UserContext.Provider value={{ userName, setUserName, emailAddress, setEmailAddress }}>
             {children}
