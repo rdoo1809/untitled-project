@@ -21,8 +21,6 @@ Route::post('/register', [ApiController::class, 'registerUser'])->name('register
 Route::post('/login', [ApiController::class, 'loginUser'])->name('loginUser');
 
 
-//called by click of forgot password link - #1
-//vals email and sends reset link
 Route::post('/forgot-password', function (Request $request) {
     $request->validate(['email' => 'required|email']);
     $status = Password::sendResetLink(
@@ -34,17 +32,13 @@ Route::post('/forgot-password', function (Request $request) {
         : back()->withErrors(['email' => __($status)]);
 })->middleware('guest')->name('password.email');
 
-#2 - recieve email lnk
 
-//email link route with token
 Route::get('/reset-password/{token}', function (string $token) {
 
     return redirect("http://localhost:3000/reset-password?token=$token");
 
-    //return view('auth.reset-password', ['token' => $token]);
 })->middleware('guest')->name('password.reset');
 
-//#4 - handles submission of reset form
 Route::post('/reset-password', function (Request $request) {
     $request->validate([
         'token' => 'required',
