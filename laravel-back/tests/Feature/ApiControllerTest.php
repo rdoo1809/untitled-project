@@ -65,6 +65,8 @@ class ApiControllerTest extends TestCase
         ]);
     }
 
+    //THIS IS ALSO A TEST
+
     //others
     public function test_private_page_is_inaccessible_without_bearer(): void
     {
