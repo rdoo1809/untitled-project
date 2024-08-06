@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import InputHinter from "../InputHinter/InputHinter";
 import {useNavigate} from 'react-router-dom';
 import {useAuth, postAUser} from '../../context/AuthContext';
+import axios from "axios";
 
 const RegisterForm = ({title = "Register Now"}) => {
     const {login} = useAuth();
@@ -15,9 +16,24 @@ const RegisterForm = ({title = "Register Now"}) => {
     });
 
     const postNewUser = () => {
-        postAUser(fullNameData, emailData, passwordData);
-        login();
-        navigate('/');
+        //postAUser(fullNameData, emailData, passwordData);
+
+        axios.post('http://localhost:8000/api/register',
+            {name: fullNameData, email: emailData, password: passwordData})
+            .then((response) => {
+                const userToken = response.data.token;
+                localStorage.setItem('authToken', userToken);
+                localStorage.setItem('userEmail', response.data.email);
+                localStorage.setItem('userName', response.data.name);
+
+                login();
+                navigate('/');
+
+                console.log(response.data);
+                alert("User Successfully Registered!\n" + response.data.name);
+            }).catch((e) => {
+            alert("Error in Registering Account - " + e);
+        })
     }
 
     /* useEffect(() => {
