@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\AuthController;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
@@ -21,16 +22,8 @@ Route::post('/register', [ApiController::class, 'registerUser'])->name('register
 Route::post('/login', [ApiController::class, 'loginUser'])->name('loginUser');
 
 
-Route::post('/forgot-password', function (Request $request) {
-    $request->validate(['email' => 'required|email']);
-    $status = Password::sendResetLink(
-        $request->only('email')
-    );
-
-    return $status === Password::RESET_LINK_SENT
-        ? back()->with(['status' => __($status)])
-        : back()->withErrors(['email' => __($status)]);
-})->middleware('guest')->name('password.email');
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])
+    ->middleware('guest')->name('password.email');
 
 
 Route::get('/reset-password/{token}', function (string $token) {
