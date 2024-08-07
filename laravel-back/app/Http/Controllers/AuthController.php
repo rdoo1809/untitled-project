@@ -11,9 +11,6 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-    //
-
-
     public function forgotPassword(Request $request)
     {
         $request->validate(['email' => 'required|email']);

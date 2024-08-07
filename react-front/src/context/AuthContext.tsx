@@ -1,11 +1,12 @@
-import React, {createContext, useContext, useState, ReactNode} from 'react';
+import React, {createContext, ReactNode, useContext, useState} from 'react';
 import axios from "axios";
-import {log} from "node:util";
+import {NavigateFunction} from "react-router-dom";
 
 interface AuthContextType {
     isAuthenticated: boolean;
     login: () => void;
     logout: () => void;
+    loginUser: (emailData: string, passwordData: string, navigate: NavigateFunction) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -25,8 +26,26 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
         localStorage.clear();
     }
 
+    const loginUser = (emailData: string, passwordData: string, navigate: NavigateFunction) => {
+        axios.post('http://localhost:8000/api/login',
+            {email: emailData, password: passwordData})
+            .then((response) => {
+                localStorage.setItem('authToken', response.data.token);
+                localStorage.setItem('userEmail', response.data.email);
+                localStorage.setItem('userName', response.data.name);
+
+                console.log(response.data)
+                alert(`${response.data.name}, You have been logged in!`);
+
+                login();
+                navigate('/private');
+            }).catch((e) => {
+            alert("Error Logging in - Please ensure credentials are valid");
+        })
+    }
+
     return (
-        <AuthContext.Provider value={{isAuthenticated, login, logout}}>
+        <AuthContext.Provider value={{isAuthenticated, login, logout, loginUser}}>
             {children}
         </AuthContext.Provider>
     );
@@ -40,20 +59,6 @@ export const useAuth = () => {
     return context;
 };
 
-export const loginUser = (emailData: string, passwordData: string) => {
-    axios.post('http://localhost:8000/api/login',
-        {email: emailData, password: passwordData})
-        .then((response) => {
-            localStorage.setItem('authToken', response.data.token);
-            localStorage.setItem('userEmail', response.data.email);
-            localStorage.setItem('userName', response.data.name);
-
-            console.log(response.data)
-            alert(`${response.data.name}, You have been logged in!`);
-        }).catch((e) => {
-        alert("Error Logging in - Please ensure credentials are valid");
-    })
-}
 
 export const postAUser = (fullNameData: string, emailData: string, passwordData: string) => {
     axios.post('http://localhost:8000/api/register',
@@ -71,9 +76,8 @@ export const postAUser = (fullNameData: string, emailData: string, passwordData:
     })
 }
 
-
 export const resetPassword = (password: string, token: string, email: string) => {
-    console.log(password,' ',token);
+    console.log(password, ' ', token);
     axios.post('http://localhost:8000/api/reset-password', {
         password: password,
         token: token,

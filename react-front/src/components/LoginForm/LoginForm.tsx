@@ -1,20 +1,13 @@
 import React, {useState} from 'react';
 import InputHinter from "../InputHinter/InputHinter";
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import {loginUser, useAuth, forgotPassword} from '../../context/AuthContext';
-
+import {forgotPassword, useAuth} from '../../context/AuthContext';
 
 const LoginForm = ({title = "Login to access your account!"}) => {
-    const {login} = useAuth();
+    const {loginUser} = useAuth();
     const navigate = useNavigate();
     const [emailData, setEmail] = useState("");
     const [passwordData, setPassword] = useState("");
-    const logAUser = () => {
-        loginUser(emailData, passwordData);
-        login();
-        navigate('/private');
-    }
 
     return (
         <div className="w-1/2 bg-amber-100 flex flex-wrap justify-center ">
@@ -37,7 +30,7 @@ const LoginForm = ({title = "Login to access your account!"}) => {
                 />
             </div>
             <div className="w-full text-center py-4">
-                <button onClick={logAUser}
+                <button onClick={()=>loginUser(emailData, passwordData, navigate)}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                 >
                     Submit
