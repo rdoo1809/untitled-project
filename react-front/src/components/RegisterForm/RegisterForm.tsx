@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import InputHinter from "../InputHinter/InputHinter";
 import {useNavigate} from 'react-router-dom';
-import {useAuth, postAUser} from '../../context/AuthContext';
-import axios from "axios";
+import {useAuth} from '../../context/AuthContext';
 
 const RegisterForm = ({title = "Register Now"}) => {
-    const {login} = useAuth();
+    const {postAUser} = useAuth();
     const navigate = useNavigate();
     const [fullNameData, setFullName] = useState("");
     const [emailData, setEmail] = useState("");
@@ -15,26 +14,6 @@ const RegisterForm = ({title = "Register Now"}) => {
         //keys: undefined
     });
 
-    const postNewUser = () => {
-        //postAUser(fullNameData, emailData, passwordData);
-
-        axios.post('http://localhost:8000/api/register',
-            {name: fullNameData, email: emailData, password: passwordData})
-            .then((response) => {
-                const userToken = response.data.token;
-                localStorage.setItem('authToken', userToken);
-                localStorage.setItem('userEmail', response.data.email);
-                localStorage.setItem('userName', response.data.name);
-
-                login();
-                navigate('/');
-
-                console.log(response.data);
-                alert("User Successfully Registered!\n" + response.data.name);
-            }).catch((e) => {
-            alert("Error in Registering Account - " + e);
-        })
-    }
 
     /* useEffect(() => {
          //disable button when length included an error
@@ -78,7 +57,7 @@ const RegisterForm = ({title = "Register Now"}) => {
             </div>
 
             <div className="w-full text-center py-4">
-                <button onClick={postNewUser}
+                <button onClick={() => postAUser(fullNameData, emailData, passwordData, navigate)}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                         disabled={isButtonDisabled}>
                     Submit

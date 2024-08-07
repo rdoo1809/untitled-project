@@ -7,6 +7,7 @@ interface AuthContextType {
     login: () => void;
     logout: () => void;
     loginUser: (emailData: string, passwordData: string, navigate: NavigateFunction) => void;
+    postAUser: (fullNameData: string, emailData: string, passwordData: string, navigate: NavigateFunction) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -44,8 +45,27 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
         })
     }
 
+    const postAUser = (fullNameData: string, emailData: string, passwordData: string, navigate: NavigateFunction) => {
+        axios.post('http://localhost:8000/api/register',
+            {name: fullNameData, email: emailData, password: passwordData})
+            .then((response) => {
+                const userToken = response.data.token;
+                localStorage.setItem('authToken', userToken);
+                localStorage.setItem('userEmail', response.data.email);
+                localStorage.setItem('userName', response.data.name);
+
+                console.log(response.data);
+                alert("User Successfully Registered!\n" + response.data.name);
+
+                login();
+                navigate('/private');
+            }).catch((e) => {
+            alert("Error in Registering Account - " + e);
+        })
+    }
+
     return (
-        <AuthContext.Provider value={{isAuthenticated, login, logout, loginUser}}>
+        <AuthContext.Provider value={{isAuthenticated, login, logout, loginUser, postAUser}}>
             {children}
         </AuthContext.Provider>
     );
@@ -60,21 +80,7 @@ export const useAuth = () => {
 };
 
 
-export const postAUser = (fullNameData: string, emailData: string, passwordData: string) => {
-    axios.post('http://localhost:8000/api/register',
-        {name: fullNameData, email: emailData, password: passwordData})
-        .then((response) => {
-            const userToken = response.data.token;
-            localStorage.setItem('authToken', userToken);
-            localStorage.setItem('userEmail', response.data.email);
-            localStorage.setItem('userName', response.data.name);
 
-            console.log(response.data);
-            alert("User Successfully Registered!\n" + response.data.name);
-        }).catch((e) => {
-        alert("Error in Registering Account - " + e);
-    })
-}
 
 export const resetPassword = (password: string, token: string, email: string) => {
     console.log(password, ' ', token);
