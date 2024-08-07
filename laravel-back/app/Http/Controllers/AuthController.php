@@ -14,18 +14,23 @@ class AuthController extends Controller
     public function forgotPassword(Request $request)
     {
         $request->validate(['email' => 'required|email']);
+
+        //query for email to make sure its an account
+
         $status = Password::sendResetLink(
             $request->only('email')
         );
 
         return $status === Password::RESET_LINK_SENT
-            ? back()->with(['status' => __($status)])
+            ? back()->with(['status' => __($status),
+                            'email' => $request['email']])
             : back()->withErrors(['email' => __($status)]);
     }
 
-    public function redirectBack(string $token)
+    public function redirectBack(string $token, string $email)
     {
-        return redirect("http://localhost:3000/reset-password?token=$token");
+        $email='blank';
+        return redirect("http://localhost:3000/reset-password?token=$token?email=$email");
     }
 
     public function resetPassword(Request $request)

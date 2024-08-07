@@ -2,18 +2,12 @@
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\AuthController;
-use App\Models\User;
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 
 
 Route::middleware(['guest'])->group(function (){
     Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('password.email');
-    Route::get('/reset-password/{token}', [AuthController::class, 'redirectBack'])->name('password.reset');
+    Route::get('/reset-password/{token}/{email}', [AuthController::class, 'redirectBack'])->name('password.reset');
     Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
     //
     Route::post('/register', [ApiController::class, 'registerUser'])->name('registerUser');

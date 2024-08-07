@@ -84,16 +84,19 @@ export const resetPassword = (password: string, token: string, email: string) =>
         token: token,
         email: 'rd@email.ca'
     }).then((response) => {
+        alert("Your password has been successfully reset!")
+        console.log(response)
     }).catch((e) => {
-
+        alert("There was an error resetting your password, please try again.")
+        console.log(e);
     })
-
 }
 
 export const forgotPassword = (email: string) => {
     axios.post('http://localhost:8000/api/forgot-password', {email: email})
         .then((response) => {
-            console.log(response.data)
+            alert("An email has been sent to the address associated with this account.")
+            console.log(response.config.data)
         }).catch((e) => {
         console.log(e)
         alert(e.message);

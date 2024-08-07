@@ -6,7 +6,8 @@ import {useSearchParams} from "react-router-dom";
 const ResetPassword = () => {
     const [password, setPassword] = useState("");
     const [searchParams] = useSearchParams();
-    const token = searchParams.get("token") || ''
+    const token = searchParams.get("token") || '';
+    const email = '';
 
     return (
         <div className='w-full mt-40 flex-col items-center'>
@@ -25,7 +26,7 @@ const ResetPassword = () => {
                 </div>
 
                 <div className="w-full text-center py-4">
-                    <button onClick={() => resetPassword(password, token, '')}
+                    <button onClick={() => resetPassword(password, token, email)}
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                         Update Password
                     </button>
