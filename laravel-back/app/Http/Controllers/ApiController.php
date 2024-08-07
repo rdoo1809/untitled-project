@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use http\Message;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use mysql_xdevapi\Exception;
-use function Laravel\Prompts\error;
 
 class ApiController extends Controller
 {
@@ -29,14 +28,17 @@ class ApiController extends Controller
     {
         try {
             $attributes = request()->validate([
-                'email' => ['required'],
+                'email' => ['required', 'email'],
                 'password' => ['required']
             ]);
 
             $user = User::query()->where('email', $attributes['email'])->first();
+            if (!$user || !Hash::check($attributes['password'], $user->password)) {
+                return response()->json(['error' => 'Invalid credentials'], 401);
+            }
+
             $userToken = $user->createToken('auth-token');
             Auth::login($user);
-
         } catch (Exception $e) {
             return response()->json([$e->getMessage()]);
         }
@@ -97,7 +99,7 @@ class ApiController extends Controller
         $user->delete();
 
         $data = [
-            'message' => "User - " . $name .  " - your account has been Deleted successfully!",
+            'message' => "User - " . $name . " - your account has been Deleted successfully!",
             'status' => 'success',
         ];
         return response()->json($data);

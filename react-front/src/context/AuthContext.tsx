@@ -26,7 +26,6 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
         setIsAuthenticated(false);
         localStorage.clear();
     }
-
     const loginUser = (emailData: string, passwordData: string, navigate: NavigateFunction) => {
         axios.post('http://localhost:8000/api/login',
             {email: emailData, password: passwordData})
@@ -44,7 +43,6 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
             alert("Error Logging in - Please ensure credentials are valid");
         })
     }
-
     const postAUser = (fullNameData: string, emailData: string, passwordData: string, navigate: NavigateFunction) => {
         axios.post('http://localhost:8000/api/register',
             {name: fullNameData, email: emailData, password: passwordData})
@@ -58,7 +56,7 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
                 alert("User Successfully Registered!\n" + response.data.name);
 
                 login();
-                navigate('/private');
+                navigate('/user-settings');
             }).catch((e) => {
             alert("Error in Registering Account - " + e);
         })
@@ -78,9 +76,6 @@ export const useAuth = () => {
     }
     return context;
 };
-
-
-
 
 export const resetPassword = (password: string, token: string, email: string) => {
     console.log(password, ' ', token);
