@@ -8,8 +8,8 @@ interface Errors {
     isEmail?: string;
 }
 
-// @ts-ignore                                                                                       //areErrors
-const InputHinter = ({className = '', name = '', type = 'text', value = "", onChange = (event)=>{}}) => {
+// @ts-ignore
+const InputHinter = ({className = '', name = '', type = 'text', value = "", onChange = (event)=>{}, areErrors = (sender)=>{}}) => {
     const inputTitle = name.length === 0 ? 'Field' : name;
     const [touched, setTouched] = useState(false);
     const [errors, setErrors] = useState<Errors>({});
@@ -45,8 +45,9 @@ const InputHinter = ({className = '', name = '', type = 'text', value = "", onCh
         setTouched(true);
         // @ts-ignore
         setErrors(validateInput(e.target));
+        areErrors(errors);
         let someErrors = (validateInput(e.target));
-        //console.log(someErrors);
+        console.log('errors - ' + errors);
         //areErrors(someErrors);
         onChange(e.target.value);
     };
@@ -73,6 +74,7 @@ const InputHinter = ({className = '', name = '', type = 'text', value = "", onCh
                 value={value}
                 onChange={handleChange}
                 onBlur={handleBlur}
+
                 className={'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ' + errorClass + " " + className}
             />
             {touched && (errors.required || errors.minlength || errors.uppercase || errors.lowercase || errors.isEmail) && (

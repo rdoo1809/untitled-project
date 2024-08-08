@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import InputHinter from "../InputHinter/InputHinter";
 import {useNavigate} from 'react-router-dom';
 import {useAuth} from '../../context/AuthContext';
@@ -9,20 +9,19 @@ const RegisterForm = ({title = "Register Now"}) => {
     const [fullNameData, setFullName] = useState("");
     const [emailData, setEmail] = useState("");
     const [passwordData, setPassword] = useState("");
+
+
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-    const [areThereErrors, setAreThereErrors] = useState({
-        //keys: undefined
-    });
+    const [areThereErrors, setAreThereErrors] = useState({});
 
-
-    /* useEffect(() => {
-         //disable button when length included an error
-         setIsButtonDisabled(
-              Object.keys(areThereErrors) === undefined || Object.keys(areThereErrors).length > 0
-         );
-         console.log(areThereErrors);
-         console.log(Object.keys(areThereErrors).length)
-     }, [fullNameData, emailData, passwordData]); */
+    useEffect(() => {
+        //disable button when length included an error
+        setIsButtonDisabled(
+            Object.keys(areThereErrors).length === 0       //Object.keys(areThereErrors) === undefined ||
+        );
+        console.log(areThereErrors);
+        console.log(Object.keys(areThereErrors).length)
+    }, [fullNameData, emailData, passwordData]);
 
 
     return (
@@ -52,7 +51,7 @@ const RegisterForm = ({title = "Register Now"}) => {
                     className="mt-1 block w-full"
                     value={passwordData}
                     onChange={setPassword}
-                    // areErrors={setAreThereErrors}
+                    areErrors={setAreThereErrors}
                 />
             </div>
 
